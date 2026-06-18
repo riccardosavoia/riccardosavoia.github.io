@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Level Designer</title>
+    <style>
+        /* ==========================================
+           1. VARIABILI E RESET
+           ========================================== */
+        :root {
+            --bg-dark: #0f0f12;        /* Sfondo principale antracite */
+            --bg-card: #18181c;        /* Sfondo delle card e dei box */
+            --accent: #00f0ff;         /* Colore accento ciano/elettrico */
+            --accent-hover: #00b3bf;   /* Hover colore accento */
+            --text-main: #f3f4f6;      /* Testo primario */
+            --text-muted: #9ca3af;     /* Testo secondario/discreto */
+            --border: #27272a;         /* Bordi discreti */
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-stack);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        img, video {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Container generale */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Sezione generica per SPA */
+        .page-section {
+            display: none; /* Nasconde le sezioni non attive */
+            padding: 80px 0;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .page-section.active {
+            display: block; /* Mostra solo la sezione attiva */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Pulsanti */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--accent);
+            color: #000;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: background-color var(--transition-speed), transform 0.1s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--border);
+            color: var(--accent);
+        }
+
+        /* ==========================================
+           2. HEADER E NAVIGAZIONE
+           ========================================== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(15, 15, 18, 0.95);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-link {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            position: relative;
+            padding: 6px 0;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-main);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        /* Dropdown Progetti */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            width: 200px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            padding: 8px 0;
+            z-index: 1001;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            color: var(--accent);
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Hamburger Menu per Mobile */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ==========================================
+           3. PAGINA HOME
+           ========================================== */
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 50vh;
+            border-bottom: 1px solid var(--border);
+            padding-top: 100px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin-bottom: 24px;
+        }
+
+        /* Ultimo Progetto (Dino Path Trail) in evidenza */
+        .featured-project {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-tag {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 700;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .featured-info h3 {
+            font-size: 1.75rem;
+            margin-bottom: 15px;
+        }
+
+        .featured-info p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .featured-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .featured-meta strong {
+            color: var(--text-main);
+        }
+
+        .media-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Iframe per video YouTube */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* Ratio 16:9 */
+            height: 0;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .gif-wrapper {
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .gif-wrapper img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* Altri Progetti Grid */
+        .other-projects {
+            padding: 60px 0 20px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: transform var(--transition-speed), border-color var(--transition-speed);
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .project-card-image {
+            height: 200px;
+            background-color: #222;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-card-content {
+            padding: 24px;
+        }
+
+        .project-card-content h4 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+
+        .project-card-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            height: 60px; /* Limita l'altezza del testo */
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ==========================================
+           4. PAGINA ABOUT ME
+           ========================================== */
+        .about-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .about-image-wrapper img {
+            width: 100%;
+            filter: grayscale(100%);
+            transition: filter var(--transition-speed);
+        }
+
+        .about-image-wrapper:hover img {
+            filter: grayscale(0%);
+        }
+
+        .about-info h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .about-info p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .certifications-section {
+            margin-top: 40px;
+            border-top: 1px solid var(--border);
+            padding-top: 30px;
+        }
+
+        .certifications-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .certifications-list li {
+            position: relative;
+            padding-left: 20px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .certifications-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .contacts-section {
+            margin-top: 40px;
+            border-top: 1px solid var(--border);
+            padding-top: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .social-link {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid transparent;
+        }
+
+        .social-link:hover {
+            color: var(--accent);
+            border-bottom: 1px solid var(--accent);
+        }
+
+        /* ==========================================
+           5. DETTAGLI DEL SINGOLO PROGETTO (TEMPLATE GENERALE)
+           ========================================== */
+        .project-detail-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding-top: 20px;
+        }
+
+        .project-header-info {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 30px;
+        }
+
+        .project-title-large {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .role-badge {
+            display: inline-block;
+            background-color: rgba(0, 240, 255, 0.1);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .project-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            background-color: var(--bg-card);
+            padding: 24px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .meta-item h5 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .meta-item p {
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        /* Slider/Carosello Documentazione */
+        .documentation-section {
+            margin-top: 30px;
+        }
+
+        .carousel-container {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .carousel-wrapper {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 15px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Personalizzazione Scrollbar del Carosello */
+        .carousel-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .carousel-wrapper::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        .carousel-wrapper::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        .carousel-wrapper::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        .doc-card {
+            flex: 0 0 320px; /* Larghezza fissa delle slide */
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: border-color var(--transition-speed);
+        }
+
+        .doc-card:hover {
+            border-color: var(--accent);
+        }
+
+        .doc-image {
+            height: 180px;
+            background-color: #222;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .doc-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .doc-content {
+            padding: 16px;
+        }
+
+        .doc-content h5 {
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+
+        .doc-content p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .carousel-btn {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color var(--transition-speed), border-color var(--transition-speed);
+        }
+
+        .carousel-btn:hover {
+            background-color: var(--border);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* ==========================================
+           6. FOOTER E BACK TO TOP
+           ========================================== */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 0;
+            margin-top: 80px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--accent);
+            color: #000;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+            z-index: 999;
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #back-to-top:hover {
+            transform: translateY(-3px);
+            background-color: var(--accent-hover);
+        }
+
+        /* ==========================================
+           7. RESPONSIVENESS (ADATTABILITÀ MOBILE)
+           ========================================== */
+        @media (max-width: 900px) {
+            .featured-grid, .about-layout {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            nav {
+                display: none; /* In una versione mobile completa verrebbe sostituito da un menù a tendina */
+            }
+
+            /* Versione ultra-semplice per mantenere reattività: mostriamo la barra orizzontale scrollabile */
+            nav.mobile-active {
+                display: flex;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-dark);
+                flex-direction: column;
+                padding: 20px;
+                border-bottom: 1px solid var(--border);
+                gap: 15px;
+            }
+
+            .dropdown-menu {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                border: none;
+                background-color: rgba(255, 255, 255, 0.02);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================
+         HEADER GENERALE
+         ========================================== -->
+    <header>
+        <div class="container header-container">
+            <!-- Cliccando sul logo si richiama il router JS verso 'home' -->
+            <div class="logo" onclick="navigateTo('home')">
+                Level<span>Designer</span>
+            </div>
+
+            <!-- Hamburger menu visibile su dispositivi mobile -->
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+
+            <nav id="navbar">
+                <span class="nav-link active" onclick="navigateTo('home')" id="nav-home">Home</span>
+                
+                <!-- Dropdown Progetti -->
+                <div class="dropdown">
+                    <span class="nav-link" id="nav-progetti">Progetti</span>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item" onclick="navigateTo('project-dino')">Dino Path Trail</div>
+                        <div class="dropdown-item" onclick="navigateTo('project-descent')">Descent</div>
+                        <div class="dropdown-item" onclick="navigateTo('project-shard')">Shard Rush</div>
+                    </div>
+                </div>
+
+                <span class="nav-link" onclick="navigateTo('about')" id="nav-about">About me</span>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==========================================
+         PAGINA 1: HOME (In evidenza + Altri Progetti)
+         ========================================== -->
+    <main class="container">
+        
+        <section id="view-home" class="page-section active">
+            
+            <!-- Hero Section -->
+            <div class="hero">
+                <span class="section-tag">Level & Environment Designer</span>
+                <h1>Progetto spazi che raccontano <span>storie</span>.</h1>
+                <p>Combino dinamiche di gameplay e visual storytelling per creare percorsi di gioco memorabili ed esperienze ad alto coinvolgimento.</p>
+                <button class="btn" onclick="navigateTo('about')">Scopri chi sono</button>
+            </div>
+
+            <!-- Focus Ultimo Progetto: Dino Path Trail -->
+            <div class="featured-project">
+                <span class="section-tag">Ultima Uscita</span>
+                <h2 class="section-title">Dino Path Trail</h2>
+                
+                <div class="featured-grid">
+                    <div class="featured-info">
+                        <h3>L'esperienza di un'avventura preistorica</h3>
+                        <p>In Dino Path Trail, il mio ruolo principale è stato quello di strutturare il flusso delle mappe ambientali, calcolando i punti d'interesse visivi (vista sui dinosauri giganti) e integrando aree di riparo con elementi verticali per sfuggire ai predatori.</p>
+                        
+                        <div class="featured-meta">
+                            <div><strong>Ruolo:</strong> Lead Level Designer</div>
+                            <div><strong>Engine:</strong> Unreal Engine 5</div>
+                        </div>
+
+                        <button class="btn btn-outline" onclick="navigateTo('project-dino')">Vedi Case Study Completo</button>
+                    </div>
+
+                    <div class="media-container">
+                        <!-- Video Placeholder (Sostituisci "VIDEO_ID" con l'effettivo codice di embed di YouTube) -->
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Dino Path Trail Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        
+                        <!-- GIF Gameplay Placeholder -->
+                        <div class="gif-wrapper">
+                            <!-- NOTA: Sostituisci questo link con il percorso reale della tua GIF animata -->
+                            <img src="https://picsum.photos/id/1060/800/450" alt="Gameplay GIF di Dino Path Trail" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Altri Progetti Grid -->
+            <div class="other-projects">
+                <span class="section-tag">Archivio Lavori</span>
+                <h2 class="section-title">Altri Progetti</h2>
+
+                <div class="projects-grid">
+                    <!-- Card Descent -->
+                    <div class="project-card" onclick="navigateTo('project-descent')">
+                        <div class="project-card-image">
+                            <!-- Sostituisci con l'immagine reale del gioco -->
+                            <img src="https://picsum.photos/id/1015/600/400" alt="Descent Cover Image">
+                        </div>
+                        <div class="project-card-content">
+                            <h4>Descent</h4>
+                            <p>Un dungeon crawler cooperativo dove la gestione delle luci dinamiche e delle strettoie ha guidato il level design strategico.</p>
+                            <span class="btn btn-outline" style="padding: 6px 14px; font-size: 0.85rem;">Esplora</span>
+                        </div>
+                    </div>
+
+                    <!-- Card Shard Rush -->
+                    <div class="project-card" onclick="navigateTo('project-shard')">
+                        <div class="project-card-image">
+                            <!-- Sostituisci con l'immagine reale del gioco -->
+                            <img src="https://picsum.photos/id/1016/600/400" alt="Shard Rush Cover Image">
+                        </div>
+                        <div class="project-card-content">
+                            <h4>Shard Rush</h4>
+                            <p>FPS competitivo dal ritmo serrato con una struttura simmetrica a tre corsie focalizzata sul bilanciamento tattico degli spawn.</p>
+                            <span class="btn btn-outline" style="padding: 6px 14px; font-size: 0.85rem;">Esplora</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==========================================
+             PAGINA 2: ABOUT ME
+             ========================================== -->
+        <section id="view-about" class="page-section">
+            <span class="section-tag">Chi sono</span>
+            
+            <div class="about-layout">
+                <div class="about-image-wrapper">
+                    <!-- NOTA: Inserisci qui l'immagine del tuo profilo -->
+                    <img src="https://picsum.photos/id/64/600/800" alt="Foto Profilo Level Designer">
+                </div>
+
+                <div class="about-info">
+                    <h2>Progettazione razionale e attenzione al dettaglio.</h2>
+                    <p>Sono un Level Designer professionista con esperienza nello sviluppo di ambienti di gioco tridimensionali immersivi. Credo fortemente che un buon livello debba istruire il giocatore silenziosamente attraverso l'uso guidato di luci, forme e percorsi intuitivi (affordance).</p>
+                    <p>La mia esperienza si estende dalla prima fase critica della stesura del documento di design (LDD) e la creazione dei "bubble diagram", fino alle sessioni iterative di Blockout e playtesting su motori come Unreal Engine e Unity.</p>
+
+                    <!-- Sezione Certificazioni -->
+                    <div class="certifications-section">
+                        <h3>Certificazioni</h3>
+                        <ul class="certifications-list">
+                            <li>Unreal Engine Professional Level Design</li>
+                            <li>Unity Certified Associate</li>
+                            <li>Advanced Architecture for Level Designers (Course)</li>
+                            <li>Scrum Master Certification (PSM I)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Sezione Contatti -->
+                    <div class="contacts-section">
+                        <h3>Contatti & Link Professionali</h3>
+                        <p>Per proposte lavorative o scambi di opinioni sul design, puoi contattarmi direttamente qui:</p>
+                        <div class="social-links">
+                            <a href="mailto:tuamail@esempio.com" class="social-link">Email</a>
+                            <a href="https://www.linkedin.com" target="_blank" class="social-link">LinkedIn</a>
+                            <a href="https://www.artstation.com" target="_blank" class="social-link">ArtStation</a>
+                            <a href="https://itch.io" target="_blank" class="social-link">Itch.io</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PAGINA 3: DETTAGLI DINO PATH TRAIL
+             ========================================== -->
+        <section id="view-project-dino" class="page-section">
+            <div class="project-detail-layout">
+                <div class="project-header-info">
+                    <span class="role-badge">Lead Level Designer</span>
+                    <h1 class="project-title-large">Dino Path Trail</h1>
+                    
+                    <div class="project-meta-grid">
+                        <div class="meta-item">
+                            <h5>Ruolo</h5>
+                            <p>Lead Level Designer / World Builder</p>
+                        </div>
+                        <div class="meta-item">
+                            <h5>Engine</h5>
+                            <p>Unreal Engine 5</p>
+                        </div>
+                        <div class="meta-item">
+                            <h5>Target</h5>
+                            <p>PC, Console (Single Player)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2>Gameplay & Visione del Progetto</h2>
+                    <p style="color: var(--text-muted); margin-top: 15px;">Dino Path Trail è un gioco incentrato sulla sopravvivenza in un ambiente popolato da creature preistoriche. Lo scopo del mio lavoro è stato strutturare le mappe in modo da alternare "zone di massima tensione" (colli di bottiglia e terreni aperti esposti) a "safe zones" (caverne, canali rialzati). La gestione visiva guida costantemente il giocatore ad individuare punti di vantaggio per anticipare le rotte dei dinosauri.</p>
+                </div>
+
+                <!-- Sezione Trailer -->
+                <div>
+                    <h3 style="margin-bottom: 20px;">Gameplay Trailer</h3>
+                    <div class="video-wrapper">
+                        <!-- Inserisci il link del trailer -->
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Dino Path Trail Trailer" frameborder="0" allow="fullscreen"></iframe>
+                    </div>
+                </div>
+
+                <!-- CAROSELLO DOCUMENTAZIONE SPECIALIZZATA -->
+                <div class="documentation-section">
+                    <h3>Documentazione e Sviluppo di Livello</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Esplora gli schemi, i bubble diagram e i blockout preparatori utilizzati durante la produzione.</p>
+
+                    <div class="carousel-container">
+                        <div class="carousel-wrapper" id="carousel-dino">
+                            
+                            <!-- Slide 1 -->
+                            <div class="doc-card">
+                                <div class="doc-image">
+                                    <img src="https://picsum.photos/id/1025/400/300" alt="Level Design Document">
+                                </div>
+                                <div class="doc-content">
+                                    <h5>Bubble Diagram & Flussi</h5>
+                                    <p>Schema concettuale delle connessioni e dell'andamento emotivo del giocatore durante il primo atto.</p>
+                                </div>
+                            </div>
+
+                            <!-- Slide 2 -->
+                            <div class="doc-card">
+                                <div class="doc-image">
+                                    <img src="https://picsum.photos/id/1031/400/300" alt="Blockout Fasi">
+                                </div>
+                                <div class="doc-content">
+                                    <h5>Blockout Iniziale (3D)</h5>
+                                    <p>Primo prototipo geometrico del livello per calibrare i tempi di corsa e le portate di salto.</p>
+                                </div>
+                            </div>
+
+                            <!-- Slide 3 -->
+                            <div class="doc-card">
+                                <div class="doc-image">
+                                    <img src="https://picsum.photos/id/1035/400/300" alt="Navigazione mappa">
+                                </div>
+                                <div class="doc-content">
+                                    <h5>Mappa del Flusso Navigazionale</h5>
+                                    <p>Analisi visiva e percorsi alternativi legati ai comportamenti d'intelligenza artificiale dei predatori.</p>
+                                </div>
+                            </div>
+
+                            <!-- Slide 4 -->
+                            <div class="doc-card">
+                                <div class="doc-image">
+                                    <img src="https://picsum.photos/id/1039/400/300" alt="Level Art Pass">
+                                </div>
+                                <div class="doc-content">
+                                    <h5>Final Art Pass</h5>
+                                    <p>Applicazione del fogliame e delle texture rispettando rigorosamente le collisioni del blockout.</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Bottoni Navigazione Carosello -->
+                        <div class="carousel-nav">
+                            <button class="carousel-btn" onclick="scrollCarousel('carousel-dino', -300)">←</button>
+                            <button class="carousel-btn" onclick="scrollCarousel('carousel-dino', 300)">→</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-outline" onclick="navigateTo('home')">← Torna ai Progetti</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PAGINA 4: DETTAGLI DESCENT
+             ========================================== -->
+        <section id="view-project-descent" class="page-section">
+            <div class="project-detail-layout">
+                <div class="project-header-info">
+                    <span class="role-badge">Senior Level Designer</span>
+                    <h1 class="project-title-large">Descent</h1>
+                    
+                    <div class="project-meta-grid">
+                        <div class="meta-item">
+                            <h5>Ruolo</h5>
+                            <p>Level Designer (Co-op & Combat)</p>
+                        </div>
+                        <div class="meta-item">
+                            <h5>Engine</h5>
+                            <p>Unity 2022</p>
+                        </div>
+                        <div class="meta-item">
+                            <h5>Target</h5>
+                            <p>PC, PlayStation 5</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2>Gameplay & Visione del Progetto</h2>
+                    <p style="color: var(--text-muted); margin-top: 15px;">*Descent* è un'esperienza cupa ambientata all'interno di miniere abbandonate e labirinti sotterranei. Ho dovuto affrontare la sfida di progettare arene con forti dislivelli d'altezza che facilitassero la cooperazione strategica. La luce ambientale e la scarsità di essa sono i principali deterrenti e guide visive per completare i puzzle ambientali.</p>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 20px;">Gameplay Walkthrough</h3>
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Descent Gameplay" frameborder="0" allow="fullscreen"></iframe>
+                    </div>
+                </div>
+
+                <!-- CAROSELLO DOCUMENTAZIONE DESCENT -->
+                <div class="documentation-section">
+                    <h3>Documentazione e Sviluppo di Livello</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Rassegna delle metodologie geometriche e del controllo dell'illuminazione applicati al gioco.</p>
+
+                    <div class="carousel-container">
+                        <div class="carousel-wrapper" id="carousel-descent">
+                            
+                            <div class="doc-card">
+                                <div class="doc-image">
+                                    <img src="https://picsum.photos/id/1041/400/300" alt="Mappa Luci">
+                                </div>
+                                <div class="doc-content">
+                                    <h5>Schema Luce & Tensione</h5>
+                                    <p>Pianificazione teorica dei coni d'ombra per generare dinamiche horror coerenti nei punti strategici.</p>
+                                </div>
+                            </div>
+
+                            <div class="doc-card">
+                                <div class="doc-image">
+                                    <img src="https://picsum.photos/id/1043/400/300" alt="Puzzle Design">
+                                </div>
+                                <div class="doc-content">
+                                    <h5>Meccanica del Puzzle a Valvole</h5>
+                                    <p>Schema logico del funzionamento dei circuiti di pressione sparsi per l'area centrale.</p>
+                                </div>
+                            </div>
+
+                            <div class="doc-card">
+                                <div class="doc-image">
+                                    <img src="https://picsum.photos/id/1045/400/300" alt="Chokepoints">
+                                </div>
+                                <div class="doc-content">
+                                    <h5>Analisi Combat Chokepoints</h5>
+                                    <p>Restringimenti di corridoio bilanciati per evitare la sopraffazione dei mostri sui giocatori.</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="carousel-nav">
+                            <button class="carousel-btn" onclick="scrollCarousel('carousel-descent', -300)">←</button>
+                            <button class="carousel-btn" onclick="scrollCarousel('carousel-descent', 300)">→</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-outline" onclick="navigateTo('home')">← Torna ai Progetti</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             PAGINA 5: DETTAGLI SHARD RUSH
+             ========================================== -->
+        <section id="view-project-shard" class="page-section">
+            <div class="project-detail-layout">
+                <div class="project-header-info">
+                    <span class="role-badge">Level Designer</span>
+                    <h1 class="project-title-large">Shard Rush</h1>
+                    
+                    <div class="project-meta-grid">
+                        <div class="meta-item">
+                            <h5>Ruolo</h5>
+                            <p>Multiplayer Level Designer</p>
+                        </div>
+                        <div class="meta-item">
+                            <h5>Engine</h5>
+                            <p>Unreal Engine 5</p>
+                        </div>
+                        <div class="meta-item">
+                            <h5>Target</h5>
+                            <p>PC (Competitivo)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2>Gameplay & Visione del Progetto</h2>
+                    <p style="color: var(--text-muted); margin-top: 15px;">*Shard Rush* è un FPS multiplayer competitivo ad arene. L'attenzione principale in questo titolo si è concentrata sulla simmetria non speculare: la mappa deve fornire pari opportunità tattiche a entrambi i team senza risultare monotona all'occhio. Ho ottimizzato la linea di vista dei cecchini e creato percorsi veloci sotterranei per spezzare il ritmo.</p>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 20px;">Trailer Competitivo</h3>
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Shard Rush Trailer" frameborder="0" allow="fullscreen"></iframe>
+                    </div>
+                </div>
+
+                <!-- CAROSELLO DOCUMENTAZIONE SHARD RUSH -->
+                <div class="documentation-section">
+                    <h3>Documentazione e Sviluppo di Livello</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Strutturazione degli spawn e linee di vista competitive.</p>
+
+                    <div class="carousel-container">
+                        <div class="carousel-wrapper" id="carousel-shard">
+                            
+                            <div class="doc-card">
+                                <div class="doc-image">
+                                    <img src="https://picsum.photos/id/1051/400/300" alt="Spawn points">
+                                </div>
+                                <div class="doc-content">
+                                    <h5>Algoritmo Spawn e Sightlines</h5>
+                                    <p>Analisi delle posizioni di rientro per prevenire lo spawn-kill nelle partite di livello e-sportivo.</p>
+                                </div>
+                            </div>
+
+                            <div class="doc-card">
+                                <div class="doc-image">
+                                    <img src="https://picsum.photos/id/1052/400/300" alt="3 Lanes Layout">
+                                </div>
+                                <div class="doc-content">
+                                    <h5>Layout a Tre Corsie (3-Lane)</h5>
+                                    <p>La scomposizione geometrica della mappa con percorsi di raccordo orizzontali ad alto rischio.</p>
+                                </div>
+                            </div>
+
+                            <div class="doc-card">
+                                <div class="doc-image">
+                                    <img src="https://picsum.photos/id/1053/400/300" alt="Verticality Design">
+                                </div>
+                                <div class="doc-content">
+                                    <h5>Zone Verticali di Vantaggio</h5>
+                                    <p>I punti sopraelevati strategici e le relative coperture vulnerabili alle granate di rimbalzo.</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="carousel-nav">
+                            <button class="carousel-btn" onclick="scrollCarousel('carousel-shard', -300)">←</button>
+                            <button class="carousel-btn" onclick="scrollCarousel('carousel-shard', 300)">→</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-outline" onclick="navigateTo('home')">← Torna ai Progetti</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================
+         FOOTER GENERALE
+         ========================================== -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 - Portfolio Level Designer. Creato con passione.</p>
+        </div>
+    </footer>
+
+    <!-- Botton "Torna in Cima" -->
+    <button id="back-to-top" title="Torna in cima">↑</button>
+
+    <!-- ==========================================
+         SCRIPT JAVASCRIPT
+         ========================================== -->
+    <script>
+        /* ---------------------------------------------
+           1. ROUTING DINAMICO (SPA)
+           --------------------------------------------- */
+        function navigateTo(targetViewId) {
+            // Nascondi tutte le sezioni
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Mostra la sezione target
+            const targetSection = document.getElementById('view-' + targetViewId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Aggiorna la classe "active" nei menu di navigazione
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Associa l'active al tab corretto
+            if (targetViewId === 'home') {
+                document.getElementById('nav-home').classList.add('active');
+            } else if (targetViewId === 'about') {
+                document.getElementById('nav-about').classList.add('active');
+            } else if (targetViewId.startsWith('project')) {
+                document.getElementById('nav-progetti').classList.add('active');
+            }
+
+            // Chiudi il menu mobile se aperto dopo il click
+            const navbar = document.getElementById('navbar');
+            navbar.classList.remove('mobile-active');
+
+            // Riporta la finestra in alto al cambio di "pagina"
+            window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        /* ---------------------------------------------
+           2. FUNZIONALITÀ CAROSELLO (SCROLL ORIZZONTALE)
+           --------------------------------------------- */
+        function scrollCarousel(carouselId, scrollOffset) {
+            const carousel = document.getElementById(carouselId);
+            if (carousel) {
+                carousel.scrollBy({
+                    left: scrollOffset,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        /* ---------------------------------------------
+           3. BOTTONE TORNA IN CIMA & SCROLL EVENT
+           --------------------------------------------- */
+        const backToTopButton = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        /* ---------------------------------------------
+           4. MENU MOBILE (TOGGLE)
+           --------------------------------------------- */
+        const menuToggle = document.getElementById('menuToggle');
+        const navbar = document.getElementById('navbar');
+
+        menuToggle.addEventListener('click', () => {
+            navbar.classList.toggle('mobile-active');
+        });
+    </script>
+</body>
+</html>
