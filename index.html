@@ -291,6 +291,7 @@
             gap: 20px;
             margin-bottom: 30px;
             font-size: 0.9rem;
+            flex-direction: column;
         }
 
         .featured-meta strong {
@@ -335,6 +336,8 @@
             height: auto;
             object-fit: cover;
             position: relative;
+            display: block;
+            margin: 0 auto;
         }
 
         /* Altri Progetti Grid */
@@ -469,11 +472,12 @@
             display: flex;
             gap: 20px;
             margin-top: 15px;
+            color: var(--accent);
         }
 
         .social-link {
             font-size: 0.95rem;
-            color: var(--text-muted);
+            /*color: var(--text-muted);*/
             border-bottom: 1px solid transparent;
         }
 
@@ -747,7 +751,7 @@
         <div class="container header-container">
             <!-- Cliccando sul logo si richiama il router JS verso 'home' -->
             <div class="logo" onclick="navigateTo('home')">
-                Level<span>Designer</span>
+                Level<span> Designer</span>
             </div>
 
             <!-- Hamburger menu visibile su dispositivi mobile -->
@@ -758,7 +762,7 @@
                 
                 <!-- Dropdown Progetti -->
                 <div class="dropdown">
-                    <span class="nav-link" id="nav-progetti">Progetti</span>
+                    <span class="nav-link" id="nav-progetti">Projects</span>
                     <div class="dropdown-menu">
                         <div class="dropdown-item" onclick="navigateTo('project-dino')">Dino Path Trail</div>
                         <div class="dropdown-item" onclick="navigateTo('project-descent')">Descent</div>
@@ -780,28 +784,39 @@
             
             <!-- Hero Section -->
             <div class="hero">
-                <span class="section-tag">Level & Environment Designer</span>
+                <span class="section-tag">Level Designer</span>
                 <h1>Progetto spazi che raccontano <span>storie</span>.</h1>
-                <p>Combino dinamiche di gameplay e visual storytelling per creare percorsi di gioco memorabili ed esperienze ad alto coinvolgimento.</p>
-                <button class="btn" onclick="navigateTo('about')">Scopri chi sono</button>
+                <p>I am a Level Designer with a background in the indie game industry and as a level design lecturer. 
+                    <br>
+                    My passion lies in crafting immersive levels and engaging encounters where players can experience satisfying and memorable gameplay.</p>
+                <button class="btn" onclick="navigateTo('about')">About me</button> 
             </div>
 
             <!-- Focus Ultimo Progetto: Dino Path Trail -->
             <div class="featured-project">
-                <span class="section-tag">Ultima Uscita</span>
+                <span class="section-tag">Last project</span>
                 <h2 class="section-title">Dino Path Trail</h2>
                 
                 <div class="featured-grid">
                     <div class="featured-info">
-                        <h3>L'esperienza di un'avventura preistorica nel far west</h3>
-                        <p>In Dino Path Trail, il mio ruolo principale è stato quello di strutturare il flusso delle mappe ambientali, calcolando i punti d'interesse visivi (vista sui dinosauri giganti) e integrando aree di riparo con elementi verticali per sfuggire ai predatori.</p>
+                        <h3>A roguelike survival in a prehistoric west</h3>
+                        <p>Dino Path Trail is a top-down, tactical survival roguelike set in a ruthless, prehistoric Wild West where dinosaurs never went extinct. 
+                            Players must venture across procedurally generated maps, from scorching deserts to haunted swamps, to rescue their kidnapped sister. 
+                            <br>
+                            The core gameplay revolves around tense ranged firefights against bandits and dinosaurs, meticulous resource management, 
+                            and upgrading a mobile base camp that follows the player's journey.
+                        </p>
                         
                         <div class="featured-meta">
-                            <div><strong>Ruolo:</strong> Level Designer</div>
+                            <div><strong>Role:</strong> Level Designer, Tester</div>
                             <div><strong>Engine:</strong> Unity</div>
+                            <div><strong>Genre:</strong> Isometric roguelike survival</div>
+                            <div><strong>Platform:</strong> PC</div>
+                            <div><strong>Release:</strong> May 2025</div>
                         </div>
+                            
 
-                        <button class="btn btn-outline" onclick="navigateTo('project-dino')">Vedi Case Study Completo</button>
+                        <button class="btn btn-outline" onclick="navigateTo('project-dino')">My experience on Dino Path Trail</button>
                     </div>
 
                     <div class="media-container">
@@ -813,7 +828,7 @@
                         <!-- GIF Gameplay Placeholder -->
                         <div class="gif-wrapper">
                             <!-- NOTA: Sostituisci questo link con il percorso reale della tua GIF animata -->
-                            <img src="https://i.ibb.co/wNMFZnyh/MX4w-QJ1.png" alt="Premi di Dino Path Trail" style="width: 400px; height: auto;"/>
+                            <img src="assets/images/premiDPT.png" alt="Premi di Dino Path Trail" style="width: 400px; height: auto;"/>
                         </div>
                     </div>
                 </div>
@@ -821,19 +836,21 @@
 
             <!-- Altri Progetti Grid -->
             <div class="other-projects">
-                <span class="section-tag">Archivio Lavori</span>
-                <h2 class="section-title">Altri Progetti</h2>
+                <span class="section-tag">Archive</span>
+                <h2 class="section-title">Other projects</h2>
 
                 <div class="projects-grid">
                     <!-- Card Descent -->
                     <div class="project-card" onclick="navigateTo('project-descent')">
                         <div class="project-card-image">
                             <!-- Sostituisci con l'immagine reale del gioco -->
-                            <img src="https://picsum.photos/id/1015/600/400" alt="Descent Cover Image">
+                            <img src="assets/images/DescentLogo.png" alt="Descent Cover Image">
                         </div>
                         <div class="project-card-content">
                             <h4>Descent</h4>
-                            <p>Un dungeon crawler cooperativo dove la gestione delle luci dinamiche e delle strettoie ha guidato il level design strategico.</p>
+                            <p>Gather the keys and avoid the demonic inhabitants to escape this hellish mansion. 
+                                But be careful to not fall into the corruption of the house. 
+                                Or perhaps these powers are exactly what you need. Do you dare to accept this... gift?</p>
                             <span class="btn btn-outline" style="padding: 6px 14px; font-size: 0.85rem;">Esplora</span>
                         </div>
                     </div>
@@ -842,11 +859,13 @@
                     <div class="project-card" onclick="navigateTo('project-shard')">
                         <div class="project-card-image">
                             <!-- Sostituisci con l'immagine reale del gioco -->
-                            <img src="https://picsum.photos/id/1016/600/400" alt="Shard Rush Cover Image">
+                            <img src="assets/images/SR4.png" alt="Shard Rush Cover Image">
                         </div>
                         <div class="project-card-content">
                             <h4>Shard Rush</h4>
-                            <p>FPS competitivo dal ritmo serrato con una struttura simmetrica a tre corsie focalizzata sul bilanciamento tattico degli spawn.</p>
+                            <p> Explore an abandoned planet as a non-anthropomorphic character, 
+                                trying to retrieve the “keys” that will allow you to escape from the portal in the center of the map. 
+                                Reach the exit in your own way, spending as much time as you want wandering and enjoying the view.</p>
                             <span class="btn btn-outline" style="padding: 6px 14px; font-size: 0.85rem;">Esplora</span>
                         </div>
                     </div>
@@ -859,39 +878,51 @@
              PAGINA 2: ABOUT ME
              ========================================== -->
         <section id="view-about" class="page-section">
-            <span class="section-tag">Chi sono</span>
+            <span class="section-tag">About me</span>
             
             <div class="about-layout">
                 <div class="about-image-wrapper">
                     <!-- NOTA: Inserisci qui l'immagine del tuo profilo -->
-                    <img src="https://picsum.photos/id/64/600/800" alt="Foto Profilo Level Designer">
+                    <img src="assets/images/Profile.jpg" alt="Foto Profilo Level Designer">
                 </div>
 
                 <div class="about-info">
-                    <h2>Progettazione razionale e attenzione al dettaglio.</h2>
-                    <p>Sono un Level Designer professionista con esperienza nello sviluppo di ambienti di gioco tridimensionali immersivi. Credo fortemente che un buon livello debba istruire il giocatore silenziosamente attraverso l'uso guidato di luci, forme e percorsi intuitivi (affordance).</p>
-                    <p>La mia esperienza si estende dalla prima fase critica della stesura del documento di design (LDD) e la creazione dei "bubble diagram", fino alle sessioni iterative di Blockout e playtesting su motori come Unreal Engine e Unity.</p>
+                    <h3>Level Designer & Lecturer with a background in Indie development, QA testing, and a love for Action-RPGs.</h3>
+                    <br>
+                    <p>I am a Level Designer with a passion for RPGs and Action-Adventure games. I have experience in Indie game development and as a Level Design Instructor. My journey started as a gamer, then as a student, and ultimately as a developer.</p>
+                    <p>I’ve also worked in QA & Testing both inside and outside the gaming industry. Across all my roles, I strongly value team communication and the ability to give and receive constructive feedback.</p>
+                    
+                     <h3>My hobbies:</h3>
+
+                    <div class="hobbies-container">
+                    <span class="tag">🏕️ Camping</span>
+                    <span class="tag">🎲 TTRPGs</span>
+                    <span class="tag">🍺 Craft Beer</span>
+                    <span class="tag">🐛 Game Breaking</span>
+                    </div>
 
                     <!-- Sezione Certificazioni -->
                     <div class="certifications-section">
-                        <h3>Certificazioni</h3>
+                        <h3>Certifications</h3>
                         <ul class="certifications-list">
-                            <li>Unreal Engine Professional Level Design</li>
-                            <li>Unity Certified Associate</li>
-                            <li>Advanced Architecture for Level Designers (Course)</li>
-                            <li>Scrum Master Certification (PSM I)</li>
+                            <li>3 years Course of Game and Level Design at Italian Videogames Academy3</li>
+                            <li>Lazio Region Certified Computer Programmer</li>
                         </ul>
+                    </div>
+
+                    <div style="margin-top: 15px;">
+                          <a href="assets/docs/Riccardo Savoia.pdf" download class="btn-resume">
+                            📥 Download Resume (PDF)
+                        </a>
                     </div>
 
                     <!-- Sezione Contatti -->
                     <div class="contacts-section">
-                        <h3>Contatti & Link Professionali</h3>
-                        <p>Per proposte lavorative o scambi di opinioni sul design, puoi contattarmi direttamente qui:</p>
+                        <h3>Contacts</h3>
+                        <p>Feel free to contact me here:</p>
                         <div class="social-links">
-                            <a href="mailto:tuamail@esempio.com" class="social-link">Email</a>
-                            <a href="https://www.linkedin.com" target="_blank" class="social-link">LinkedIn</a>
-                            <a href="https://www.artstation.com" target="_blank" class="social-link">ArtStation</a>
-                            <a href="https://itch.io" target="_blank" class="social-link">Itch.io</a>
+                            <a href="mailto:savoiariccardo@gmail.com" class="social-link">Email</a>
+                            <a href="https://www.linkedin.com/in/riccardo-savoia-bb5887174/" target="_blank" class="social-link">LinkedIn</a>
                         </div>
                     </div>
                 </div>
@@ -904,17 +935,17 @@
         <section id="view-project-dino" class="page-section">
             <div class="project-detail-layout">
                 <div class="project-header-info">
-                    <span class="role-badge">Lead Level Designer</span>
+                    <span class="role-badge">Level Designer</span>
                     <h1 class="project-title-large">Dino Path Trail</h1>
                     
                     <div class="project-meta-grid">
                         <div class="meta-item">
                             <h5>Ruolo</h5>
-                            <p>Lead Level Designer / World Builder</p>
+                            <p>Level Designer / World Builder</p>
                         </div>
                         <div class="meta-item">
                             <h5>Engine</h5>
-                            <p>Unreal Engine 5</p>
+                            <p>Unity</p>
                         </div>
                         <div class="meta-item">
                             <h5>Target</h5>
@@ -1032,14 +1063,14 @@
 
                 <div>
                     <h2>Gameplay & Visione del Progetto</h2>
-                    <p style="color: var(--text-muted); margin-top: 15px;">*Descent* è un'esperienza cupa ambientata all'interno di miniere abbandonate e labirinti sotterranei. Ho dovuto affrontare la sfida di progettare arene con forti dislivelli d'altezza che facilitassero la cooperazione strategica. La luce ambientale e la scarsità di essa sono i principali deterrenti e guide visive per completare i puzzle ambientali.</p>
+                    <p style="color: var(--text-muted); margin-top: 15px;">Descent is a game focused on a metroidvania style map and stealth features.</p>
                 </div>
 
                 <div>
-                    <h3 style="margin-bottom: 20px;">Gameplay Walkthrough</h3>
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Descent Gameplay" frameborder="0" allow="fullscreen"></iframe>
-                    </div>
+                    <h3 style="margin-bottom: 20px;">Trailer</h3>
+                    <video id="video-descent" playsinline controls>
+                        <source src="assets/videos/Descent_Trailer.mp4" type="video/mp4" title="Descent Gameplay" frameborder="0" allow="fullscreen"></source>
+                    </video>
                 </div>
 
                 <!-- CAROSELLO DOCUMENTAZIONE DESCENT -->
@@ -1101,28 +1132,29 @@
         <section id="view-project-shard" class="page-section">
             <div class="project-detail-layout">
                 <div class="project-header-info">
-                    <span class="role-badge">Level Designer</span>
+                    <span class="role-badge">First Project</span>
                     <h1 class="project-title-large">Shard Rush</h1>
                     
                     <div class="project-meta-grid">
                         <div class="meta-item">
-                            <h5>Ruolo</h5>
-                            <p>Multiplayer Level Designer</p>
+                            <h5>Role</h5>
+                            <p>Level Designer</p>
                         </div>
                         <div class="meta-item">
                             <h5>Engine</h5>
-                            <p>Unreal Engine 5</p>
+                            <p>Unreal Engine 4</p>
                         </div>
                         <div class="meta-item">
-                            <h5>Target</h5>
-                            <p>PC (Competitivo)</p>
+                            <h5>Development time</h5>
+                            <p>1 Month</p>
                         </div>
                     </div>
                 </div>
 
-                <div>
-                    <h2>Gameplay & Visione del Progetto</h2>
-                    <p style="color: var(--text-muted); margin-top: 15px;">*Shard Rush* è un FPS multiplayer competitivo ad arene. L'attenzione principale in questo titolo si è concentrata sulla simmetria non speculare: la mappa deve fornire pari opportunità tattiche a entrambi i team senza risultare monotona all'occhio. Ho ottimizzato la linea di vista dei cecchini e creato percorsi veloci sotterranei per spezzare il ritmo.</p>
+                <div>Overview & My Experience</h2>
+                    <p style="color: var(--text-muted); margin-top: 15px;">Explore an abandoned planet as a non-anthropomorphic character, 
+                                trying to retrieve the “keys” that will allow you to escape from the portal in the center of the map. 
+                                Reach the exit in your own way, spending as much time as you want wandering and enjoying the view.</p>
                 </div>
 
                 <div>
@@ -1217,6 +1249,21 @@
             const targetSection = document.getElementById('view-' + targetViewId);
             if (targetSection) {
                 targetSection.classList.add('active');
+            }
+
+            // 3. GESTIONE VIDEO LOCALE (Ripartenza da zero su Descent)
+            const videoDescent = document.getElementById('video-descent');
+            if (videoDescent) {
+                if (targetViewId === 'project-descent') {
+                    // Quando l'utente entra, resetta il tempo a 0 e avvia la riproduzione
+                    videoDescent.currentTime = 0; 
+                    videoDescent.play().catch(error => {
+                        console.log("Riproduzione automatica bloccata dal browser:", error);
+                    });
+                } else {
+                    // Quando l'utente esce, metti in pausa
+                    videoDescent.pause();
+                }
             }
 
             // Aggiorna la classe "active" nei menu di navigazione
