@@ -580,12 +580,14 @@
         }
 
         .doc-card {
-            flex: 0 0 320px; /* Larghezza fissa delle slide */
+            flex: 0 0 320px; /* Larghezza iniziale delle slide */
             background-color: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 6px;
-            overflow: hidden;
-            transition: border-color var(--transition-speed);
+            overflow: visible; /* FONDAMENTALE: permette alla card di espandersi fuori dai bordi originali */
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            z-index: 1; /* Posizione normale di riposo */
         }
 
         .doc-card:hover {
@@ -691,6 +693,145 @@
             background-color: var(--accent-hover);
         }
 
+
+                /* Rimuove lo stile di default dei link attorno alla card */
+        .doc-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .interactive-pdf-card {
+            position: relative;
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.4s ease;
+        }
+
+        .doc-pdf-wrapper {
+            position: relative;
+            width: 100%;
+            height: 200px; /* Altezza iniziale */
+            overflow: hidden;
+            border-radius: 6px;
+            transition: height 0.4s ease;
+        }
+
+        .pdf-embed-preview {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none; /* Bloccato a riposo */
+        }
+
+        .pdf-hover-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        /* L'embed del PDF bloccato a mo' di immagine */
+            .pdf-static-preview {
+                width: 100%;
+                height: 100%;
+                border: none;
+                pointer-events: none; /* Disabilita interazioni e scroll, resta un'immagine fissa */
+            }
+
+
+        /* ==========================================
+        HOVER: Espansione + Abilitazione Scroll
+        ========================================== */
+        /* Quando il mouse entra nella card */
+        .interactive-pdf-card:hover {
+            flex: 0 0 800px; /* <--- QUI decidi la NUOVA LARGHEZZA in hover (es. 600px o 700px) */
+            z-index: 99; /* Porta la card sopra alle altre card adiacenti */
+            border-color: var(--accent); /* Opzionale: illumina il bordo */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Dà profondità all'espansione */
+        }
+
+        /* Espansione in ALTEZZA del lettore PDF interno */
+        .interactive-pdf-card:hover .doc-pdf-wrapper {
+            height: 500px; /* <--- QUI decidi la NUOVA ALTEZZA del PDF */
+        }
+
+        .interactive-pdf-card:hover .pdf-hover-overlay {
+            opacity: 0; /* Nasconde l'overlay */
+        }
+
+        .interactive-pdf-card:hover .pdf-embed-preview {
+            pointer-events: auto; /* SBLOCCA lo scroll e l'interazione con il PDF */
+        }
+
+        /* Stilizzazione header e pulsante apri PDF */
+        .doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+
+        .btn-open-pdf {
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-open-pdf:hover {
+            background: var(--accent);
+            color: #121212;
+        }
+
+/* ==========================================
+   EFFETTO HOVER (Espansione + Scroll)
+   ========================================== */
+.interactive-pdf-card:hover .doc-pdf-wrapper {
+    height: 480px; /* Si allunga per far leggere il contenuto */
+    transform: scale(1.01);
+    box-shadow: 0 8px 25px rgba(0, 229, 255, 0.2); /* Glow azzurro */
+}
+
+/* Nasconde l'overlay quando il mouse è dentro */
+.interactive-pdf-card:hover .pdf-hover-overlay {
+    opacity: 0;
+}
+
+/* Riabilita lo scroll del PDF quando ci si passa sopra */
+.interactive-pdf-card:hover .pdf-embed-preview {
+    pointer-events: auto;
+}
+
+/* Piccola icona freccia che si illumina in hover */
+.external-icon {
+    font-size: 0.9em;
+    color: var(--accent);
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.doc-card-link:hover .external-icon {
+    transform: translate(2px, -2px); /* Animazione freccetta in alto a destra */
+}
+
+
         /* ==========================================
            7. RESPONSIVENESS (ADATTABILITÀ MOBILE)
            ========================================== */
@@ -784,7 +925,7 @@
             
             <!-- Hero Section -->
             <div class="hero">
-                <span class="section-tag">Level Designer</span>
+                <span class="section-tag">Riccardo Savoia</span>
                 <h1>Progetto spazi che raccontano <span>storie</span>.</h1>
                 <p>I am a Level Designer with a background in the indie game industry and as a level design lecturer. 
                     <br>
@@ -800,7 +941,7 @@
                 <div class="featured-grid">
                     <div class="featured-info">
                         <h3>A roguelike survival in a prehistoric west</h3>
-                        <p>Dino Path Trail is a top-down, tactical survival roguelike set in a ruthless, prehistoric Wild West where dinosaurs never went extinct. 
+                        <p>Dino Path Trail is an isometric, procedural survival roguelike set in a ruthless, prehistoric Wild West where dinosaurs never went extinct. 
                             Players must venture across procedurally generated maps, from scorching deserts to haunted swamps, to rescue their kidnapped sister. 
                             <br>
                             The core gameplay revolves around tense ranged firefights against bandits and dinosaurs, meticulous resource management, 
@@ -848,10 +989,9 @@
                         </div>
                         <div class="project-card-content">
                             <h4>Descent</h4>
-                            <p>Gather the keys and avoid the demonic inhabitants to escape this hellish mansion. 
-                                But be careful to not fall into the corruption of the house. 
-                                Or perhaps these powers are exactly what you need. Do you dare to accept this... gift?</p>
-                            <span class="btn btn-outline" style="padding: 6px 14px; font-size: 0.85rem;">Esplora</span>
+                            <p>Avoid the demons and try to escape this hellish mansion. 
+                                Beware of the corrupting powers that will try to seduce you. Do you dare to accept their... gift?</p>
+                            <span class="btn btn-outline" style="padding: 6px 14px; font-size: 0.85rem;">Explore</span>
                         </div>
                     </div>
 
@@ -863,10 +1003,9 @@
                         </div>
                         <div class="project-card-content">
                             <h4>Shard Rush</h4>
-                            <p> Explore an abandoned planet as a non-anthropomorphic character, 
-                                trying to retrieve the “keys” that will allow you to escape from the portal in the center of the map. 
-                                Reach the exit in your own way, spending as much time as you want wandering and enjoying the view.</p>
-                            <span class="btn btn-outline" style="padding: 6px 14px; font-size: 0.85rem;">Esplora</span>
+                            <p> Explore an abandoned planet as a non-anthropomorphic character.
+                                Reach the exit in your own way, gather keys wandering and enjoying the view.</p>
+                            <span class="btn btn-outline" style="padding: 6px 14px; font-size: 0.85rem;">Explore</span>
                         </div>
                     </div>
                 </div>
@@ -874,6 +1013,10 @@
 
         </section>
 
+
+        <!-- #region PAGINA: ABOUT ME -->
+        <section id="about-me">
+            <h2>About Me</h2>
         <!-- ==========================================
              PAGINA 2: ABOUT ME
              ========================================== -->
@@ -895,17 +1038,17 @@
                      <h3>My hobbies:</h3>
 
                     <div class="hobbies-container">
-                    <span class="tag">🏕️ Camping</span>
-                    <span class="tag">🎲 TTRPGs</span>
-                    <span class="tag">🍺 Craft Beer</span>
-                    <span class="tag">🐛 Game Breaking</span>
+                    <span class="tag">Camping -</span>
+                    <span class="tag">TTRPGs -</span>
+                    <span class="tag">Movies -</span>
+                    <span class="tag">Game Breaking</span>
                     </div>
 
                     <!-- Sezione Certificazioni -->
                     <div class="certifications-section">
                         <h3>Certifications</h3>
                         <ul class="certifications-list">
-                            <li>3 years Course of Game and Level Design at Italian Videogames Academy3</li>
+                            <li>3 years Course of Game and Level Design at Italian Videogames Academy</li>
                             <li>Lazio Region Certified Computer Programmer</li>
                         </ul>
                     </div>
@@ -929,6 +1072,10 @@
             </div>
         </section>
 
+
+        </section>
+        <!-- #endregion -->
+
         <!-- ==========================================
              PAGINA 3: DETTAGLI DINO PATH TRAIL
              ========================================== -->
@@ -941,7 +1088,7 @@
                     <div class="project-meta-grid">
                         <div class="meta-item">
                             <h5>Ruolo</h5>
-                            <p>Level Designer / World Builder</p>
+                            <p>Level Designer / Tester</p>
                         </div>
                         <div class="meta-item">
                             <h5>Engine</h5>
@@ -949,13 +1096,13 @@
                         </div>
                         <div class="meta-item">
                             <h5>Target</h5>
-                            <p>PC, Console (Single Player)</p>
+                            <p>PC (Single Player)</p>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <h2>Gameplay & Visione del Progetto</h2>
+                    <h2>About Dino Path Trail</h2>
                     <p style="color: var(--text-muted); margin-top: 15px;">Dino Path Trail è un gioco incentrato sulla sopravvivenza in un ambiente popolato da creature preistoriche. Lo scopo del mio lavoro è stato strutturare le mappe in modo da alternare "zone di massima tensione" (colli di bottiglia e terreni aperti esposti) a "safe zones" (caverne, canali rialzati). La gestione visiva guida costantemente il giocatore ad individuare punti di vantaggio per anticipare le rotte dei dinosauri.</p>
                 </div>
 
@@ -1031,7 +1178,7 @@
                 </div>
 
                 <div style="margin-top: 20px;">
-                    <button class="btn btn-outline" onclick="navigateTo('home')">← Torna ai Progetti</button>
+                    <button class="btn btn-outline" onclick="navigateTo('home')">← Back to Home</button>
                 </div>
             </div>
         </section>
@@ -1042,27 +1189,27 @@
         <section id="view-project-descent" class="page-section">
             <div class="project-detail-layout">
                 <div class="project-header-info">
-                    <span class="role-badge">Senior Level Designer</span>
+                    <span class="role-badge">Level Designer</span>
                     <h1 class="project-title-large">Descent</h1>
                     
                     <div class="project-meta-grid">
                         <div class="meta-item">
                             <h5>Ruolo</h5>
-                            <p>Level Designer (Co-op & Combat)</p>
+                            <p>Level Designer</p>
                         </div>
                         <div class="meta-item">
                             <h5>Engine</h5>
-                            <p>Unity 2022</p>
+                            <p>Unreal Engine</p>
                         </div>
                         <div class="meta-item">
-                            <h5>Target</h5>
-                            <p>PC, PlayStation 5</p>
+                            <h5>Development time</h5>
+                            <p>6 months</p>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <h2>Gameplay & Visione del Progetto</h2>
+                    <h2>About Descent</h2>
                     <p style="color: var(--text-muted); margin-top: 15px;">Descent is a game focused on a metroidvania style map and stealth features.</p>
                 </div>
 
@@ -1075,39 +1222,63 @@
 
                 <!-- CAROSELLO DOCUMENTAZIONE DESCENT -->
                 <div class="documentation-section">
-                    <h3>Documentazione e Sviluppo di Livello</h3>
+                    <h3>Documentation and Analysis</h3>
                     <p style="color: var(--text-muted); font-size: 0.95rem;">Rassegna delle metodologie geometriche e del controllo dell'illuminazione applicati al gioco.</p>
 
                     <div class="carousel-container">
                         <div class="carousel-wrapper" id="carousel-descent">
-                            
-                            <div class="doc-card">
+
+                              <div class="doc-card">
                                 <div class="doc-image">
-                                    <img src="https://picsum.photos/id/1041/400/300" alt="Mappa Luci">
+                                    <!-- Carica direttamente la prima pagina del file PDF -->
+                                    <embed src="assets/docs/Descent/HollowKnight.pdf" alt="Competitor Research Preview" class="pdf-static-preview">
                                 </div>
+                                
                                 <div class="doc-content">
-                                    <h5>Schema Luce & Tensione</h5>
-                                    <p>Pianificazione teorica dei coni d'ombra per generare dinamiche horror coerenti nei punti strategici.</p>
+                                    <div class="doc-header">
+                                        <h5>Competitor Research</h5>
+                                        <a href="assets/docs/Descent/HollowKnight.pdf" target="_blank" class="btn-open-pdf" title="Apri in nuova scheda">
+                                            Open PDF ↗
+                                        </a>
+                                    </div>
+                                    <p>An analysis on the level design and items placement of Hollow Knight.</p>
                                 </div>
                             </div>
 
-                            <div class="doc-card">
-                                <div class="doc-image">
-                                    <img src="https://picsum.photos/id/1043/400/300" alt="Puzzle Design">
-                                </div>
-                                <div class="doc-content">
-                                    <h5>Meccanica del Puzzle a Valvole</h5>
-                                    <p>Schema logico del funzionamento dei circuiti di pressione sparsi per l'area centrale.</p>
-                                </div>
-                            </div>
+
 
                             <div class="doc-card">
                                 <div class="doc-image">
-                                    <img src="https://picsum.photos/id/1045/400/300" alt="Chokepoints">
+                                    <!-- Carica direttamente la prima pagina del file PDF -->
+                                    <embed src="assets/docs/Descent/MarkNinja.pdf" alt="Competitor Research Preview" class="pdf-static-preview">
                                 </div>
+                                
                                 <div class="doc-content">
-                                    <h5>Analisi Combat Chokepoints</h5>
-                                    <p>Restringimenti di corridoio bilanciati per evitare la sopraffazione dei mostri sui giocatori.</p>
+                                    <div class="doc-header">
+                                        <h5>Competitor Research</h5>
+                                        <a href="assets/docs/Descent/MarkNinja.pdf" target="_blank" class="btn-open-pdf" title="Apri in nuova scheda">
+                                            Open PDF ↗
+                                        </a>
+                                    </div>
+                                    <p>An analysis on the level design and items placement of Hollow Knight.</p>
+                                </div>
+                            </div>
+
+
+                            <div class="doc-card">
+                                <div class="doc-image">
+                                    <!-- Carica direttamente la prima pagina del file PDF -->
+                                    <embed src="assets/docs/Descent/Shadow.pdf" alt="Competitor Research Preview" class="pdf-static-preview">
+                                </div>
+                                
+                                <div class="doc-content">
+                                    <div class="doc-header">
+                                        <h5>Competitor Research</h5>
+                                        <a href="assets/docs/Descent/Shadow.pdf" target="_blank" class="btn-open-pdf" title="Apri in nuova scheda">
+                                            Open PDF ↗
+                                        </a>
+                                    </div>
+                                    <p>An analysis on the level and enemy design of Shadow Tactics:BOTS.</p>
                                 </div>
                             </div>
 
@@ -1121,7 +1292,7 @@
                 </div>
 
                 <div style="margin-top: 20px;">
-                    <button class="btn btn-outline" onclick="navigateTo('home')">← Torna ai Progetti</button>
+                    <button class="btn btn-outline" onclick="navigateTo('home')">← Back to Home</button>
                 </div>
             </div>
         </section>
@@ -1138,7 +1309,7 @@
                     <div class="project-meta-grid">
                         <div class="meta-item">
                             <h5>Role</h5>
-                            <p>Level Designer</p>
+                            <p>Level Designer / Blueprint programmer</p>
                         </div>
                         <div class="meta-item">
                             <h5>Engine</h5>
@@ -1212,7 +1383,7 @@
                 </div>
 
                 <div style="margin-top: 20px;">
-                    <button class="btn btn-outline" onclick="navigateTo('home')">← Torna ai Progetti</button>
+                    <button class="btn btn-outline" onclick="navigateTo('home')">← Back to Home</button>
                 </div>
             </div>
         </section>
@@ -1224,12 +1395,12 @@
          ========================================== -->
     <footer>
         <div class="container">
-            <p>&copy; 2026 - Portfolio Level Designer. Creato con passione.</p>
+            <p>&copy; 2026 - Riccardo Savoia - Level Designer.</p>
         </div>
     </footer>
 
     <!-- Botton "Torna in Cima" -->
-    <button id="back-to-top" title="Torna in cima">↑</button>
+    <button id="back-to-top" title="Scroll Up">↑</button>
 
     <!-- ==========================================
          SCRIPT JAVASCRIPT
@@ -1256,13 +1427,15 @@
             if (videoDescent) {
                 if (targetViewId === 'project-descent') {
                     // Quando l'utente entra, resetta il tempo a 0 e avvia la riproduzione
-                    videoDescent.currentTime = 0; 
-                    videoDescent.play().catch(error => {
+                    // videoDescent.currentTime = 0; 
+                    videoDescent.volume = 0.1;
+                    /*videoDescent.play().catch(error => {
                         console.log("Riproduzione automatica bloccata dal browser:", error);
-                    });
+                    });*/
                 } else {
                     // Quando l'utente esce, metti in pausa
                     videoDescent.pause();
+                    videoDescent.currentTime = 0; 
                 }
             }
 
