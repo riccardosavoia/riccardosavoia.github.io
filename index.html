@@ -926,7 +926,7 @@
             <!-- Hero Section -->
             <div class="hero">
                 <span class="section-tag">Riccardo Savoia</span>
-                <h1>Progetto spazi che raccontano <span>storie</span>.</h1>
+                <!-- <h1>Progetto spazi che raccontano <span>storie</span>.</h1> -->
                 <p>I am a Level Designer with a background in the indie game industry and as a level design lecturer. 
                     <br>
                     My passion lies in crafting immersive levels and engaging encounters where players can experience satisfying and memorable gameplay.</p>
@@ -1103,16 +1103,17 @@
 
                 <div>
                     <h2>About Dino Path Trail</h2>
-                    <p style="color: var(--text-muted); margin-top: 15px;">Dino Path Trail è un gioco incentrato sulla sopravvivenza in un ambiente popolato da creature preistoriche. Lo scopo del mio lavoro è stato strutturare le mappe in modo da alternare "zone di massima tensione" (colli di bottiglia e terreni aperti esposti) a "safe zones" (caverne, canali rialzati). La gestione visiva guida costantemente il giocatore ad individuare punti di vantaggio per anticipare le rotte dei dinosauri.</p>
+                    <p style="color: var(--text-muted); margin-top: 15px;">Dino Path Trail è un gioco incentrato sulla sopravvivenza in un ambiente popolato da creature preistoriche. 
+                        Lo scopo del mio lavoro è stato strutturare le mappe in modo da alternare "zone di massima tensione" (colli di bottiglia e terreni aperti esposti) a "safe zones" (caverne, canali rialzati). 
+                        La gestione visiva guida costantemente il giocatore ad individuare punti di vantaggio per anticipare le rotte dei dinosauri.</p>
                 </div>
 
                 <!-- Sezione Trailer -->
                 <div>
-                    <h3 style="margin-bottom: 20px;">Gameplay Trailer</h3>
+                    <h3 style="margin-bottom: 20px;">Overview Trailer</h3>
                     <div class="video-wrapper">
-                        <!-- Inserisci il link del trailer -->
-                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Dino Path Trail Trailer" frameborder="0" allow="fullscreen"></iframe>
-                    </div>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/GBKMrTG39kA?si=_UY1ye3MD1sUFeH0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
                 </div>
 
                 <!-- CAROSELLO DOCUMENTAZIONE SPECIALIZZATA -->
@@ -1126,44 +1127,36 @@
                             <!-- Slide 1 -->
                             <div class="doc-card">
                                 <div class="doc-image">
-                                    <img src="https://picsum.photos/id/1025/400/300" alt="Level Design Document">
+                                    <!-- Carica direttamente la prima pagina del file PDF -->
+                                    <embed src="assets/docs/DPT/Procedural.pdf" alt="Competitor Research Preview" class="pdf-static-preview">
                                 </div>
+                                
                                 <div class="doc-content">
-                                    <h5>Bubble Diagram & Flussi</h5>
-                                    <p>Schema concettuale delle connessioni e dell'andamento emotivo del giocatore durante il primo atto.</p>
+                                    <div class="doc-header">
+                                        <h5>Procedural research</h5>
+                                        <a href="assets/docs/DPT/Procedural.pdf" target="_blank" class="btn-open-pdf" title="Apri in nuova scheda">
+                                            Open PDF ↗
+                                        </a>
+                                    </div>
+                                    <p>An analysis on the level design and map generation of procedural videogames.</p>
                                 </div>
                             </div>
 
-                            <!-- Slide 2 -->
-                            <div class="doc-card">
-                                <div class="doc-image">
-                                    <img src="https://picsum.photos/id/1031/400/300" alt="Blockout Fasi">
-                                </div>
-                                <div class="doc-content">
-                                    <h5>Blockout Iniziale (3D)</h5>
-                                    <p>Primo prototipo geometrico del livello per calibrare i tempi di corsa e le portate di salto.</p>
-                                </div>
-                            </div>
 
-                            <!-- Slide 3 -->
                             <div class="doc-card">
                                 <div class="doc-image">
-                                    <img src="https://picsum.photos/id/1035/400/300" alt="Navigazione mappa">
+                                    <!-- Carica direttamente la prima pagina del file PDF -->
+                                    <embed src="assets/docs/DPT/Encounters.pdf" alt="Competitor Research Preview" class="pdf-static-preview">
                                 </div>
+                                
                                 <div class="doc-content">
-                                    <h5>Mappa del Flusso Navigazionale</h5>
-                                    <p>Analisi visiva e percorsi alternativi legati ai comportamenti d'intelligenza artificiale dei predatori.</p>
-                                </div>
-                            </div>
-
-                            <!-- Slide 4 -->
-                            <div class="doc-card">
-                                <div class="doc-image">
-                                    <img src="https://picsum.photos/id/1039/400/300" alt="Level Art Pass">
-                                </div>
-                                <div class="doc-content">
-                                    <h5>Final Art Pass</h5>
-                                    <p>Applicazione del fogliame e delle texture rispettando rigorosamente le collisioni del blockout.</p>
+                                    <div class="doc-header">
+                                        <h5>Encounter Design</h5>
+                                        <a href="assets/docs/DPT/Encounters.pdf" target="_blank" class="btn-open-pdf" title="Apri in nuova scheda">
+                                            Open PDF ↗
+                                        </a>
+                                    </div>
+                                    <p>A research and design proposals about combat encounters.</p>
                                 </div>
                             </div>
 
@@ -1223,8 +1216,7 @@
                 <!-- CAROSELLO DOCUMENTAZIONE DESCENT -->
                 <div class="documentation-section">
                     <h3>Documentation and Analysis</h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem;">Rassegna delle metodologie geometriche e del controllo dell'illuminazione applicati al gioco.</p>
-
+                    
                     <div class="carousel-container">
                         <div class="carousel-wrapper" id="carousel-descent">
 
